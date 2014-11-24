@@ -12,7 +12,7 @@ $ git clone https://github.com/rukmal/Change.org-Python-API
 ```
 - Export the location of your project as an environment variable to make the installation process easier
 ```bash
-$ export $PROJECT_LOCATION=[Your project location goes here]
+$ export PROJECT_LOCATION=[Your project location goes here]
 ```
 - Copy the ```change_org``` directory into your project directory
 ```bash
