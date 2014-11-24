@@ -3,3 +3,9 @@
 
 # Ignoring venv files
 venv/
+
+# Ignoring pycache files
+*.pyc
+
+# Ignoring test python script
+test.py
