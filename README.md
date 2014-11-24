@@ -1,8 +1,8 @@
 # Change.org Python API
 
-This is a python interface for the http://change.org REST API.
+This is a Python interface for the http://change.org REST API.
 
-This application provides a Python interface for interacting with the change.org REST API. This package uses [Requests](http://docs.python-requests.org/en/latest/) as its HTTP request engine, and returns data in regular Python data structures (lists and dicts).
+This package uses [Requests](http://docs.python-requests.org/en/latest/) as its HTTP request engine, and returns data in regular Python data structures (lists and dicts).
 
 ## Local Installation
 
