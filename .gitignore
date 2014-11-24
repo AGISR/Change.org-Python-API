@@ -9,3 +9,6 @@ venv/
 
 # Ignoring test python script
 test.py
+
+# Ignoring env variables file
+.env
