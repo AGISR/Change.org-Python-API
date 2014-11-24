@@ -1,4 +1,4 @@
-# Change.org Python API Interface
+# Change.org API Python Interface
 
 This is a python interface for the http://change.org REST API.
 
