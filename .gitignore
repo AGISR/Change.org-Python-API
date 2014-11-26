@@ -16,3 +16,4 @@ test.py
 # Ignoring stuff from setuptools
 change_org.egg-info/
 dist/
+build/

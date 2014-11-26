@@ -8,6 +8,5 @@ setup(name='change_org',
       author='Rukmal Weerawarana',
       author_email='rukmal.weerawarana@gmail.com',
       url='http://github.com/AGISR/Change.org-Python-API',
-      packages=['change_org'],
-      tests_require=['pytest']
+      packages=['change_org']
      )
