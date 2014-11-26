@@ -12,3 +12,7 @@ test.py
 
 # Ignoring env variables file
 .env
+
+# Ignoring stuff from setuptools
+change_org.egg-info/
+dist/

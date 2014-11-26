@@ -1,11 +1,12 @@
 import requests
-import exceptions as apiExceptions
+import exceptions as ex
 import os
 
 class Api(object):
 	"""
 	This is the main Change.org API object, which encapsulates API methods
 	"""
+
 	def __init__(self, **args):
 		"""
 		Create a new Api object.
@@ -19,10 +20,10 @@ class Api(object):
 			try:
 				self.__KEY = args['key']
 			except:
-				raise apiExcceptions.ApiInitializationError()
+				raise ex.ApiInitializationError()
 		else:
 			key = os.environ.get('CHANGE_ORG_API_KEY')
 			if key is not None:
 				self.__KEY = key
 			else:
-				raise apiExceptions.ApiInitializationError()
+				raise ex.ApiInitializationError()
