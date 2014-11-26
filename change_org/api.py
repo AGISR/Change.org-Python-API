@@ -13,7 +13,8 @@ class Api(object):
 		constructor, or can alternatively be set as environment variables, CHANGE_ORG_API_KEY
 		and CHANGE_ORG_API_SECRET for the API key and secret respectively
 		Args:
-			kwagrs: {dict} Dictionary of arugments, with keys 'key' and 'secret', containing the change.org API key and secret
+			kwagrs: {dict} Dictionary of arugments, with keys 'key' and 'secret', containing the
+				change.org API key and secret
 		Raises:
 			ApiInitializationError: Thrown if API key and secret are not passed through correctly
 		"""
