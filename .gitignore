@@ -17,3 +17,6 @@ test.py
 change_org.egg-info/
 dist/
 build/
+
+# Ignoring test python file
+test.py

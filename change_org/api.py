@@ -18,6 +18,7 @@ class Api(object):
 		Raises:
 			ApiInitializationError: Thrown if API key and secret are not passed through correctly
 		"""
+		self.__BASEURL = 'https://api.change.org/v1/'
 		api_key = self.__checkEnvironmentAndDict(kwagrs, 'key', 'CHANGE_ORG_API_KEY')
 		api_secret = self.__checkEnvironmentAndDict(kwagrs, 'secret', 'CHANGE_ORG_API_SECRET')
 		if api_key.get('exists') and api_secret.get('exists'):
@@ -35,7 +36,7 @@ class Api(object):
 			dictKey: {str} Key to be searched for in the dictionary
 			osKey: {str} Key of desired environment variable
 		Returns:
-			A dict with keys 'exists' and 'value', where exists is a boolean (true if the value
+			{dict} A dict with keys 'exists' and 'value', where exists is a boolean (true if the value
 			exists in either the dictionary or the environment variables or both, false if not) and
 			where 'value' is the value retrieved from the dictionary or environment variables for the
 			specified keys (if it exists, an empty string is returned if not). Note: if both
@@ -49,3 +50,43 @@ class Api(object):
 				return {'exists': True, 'value': candidateKey}
 			else:
 				return {'exists': False, 'value': ''}
+
+	def __makeRequest(self, url, params):
+		"""
+		Function to make a request to the change.org API, using the requests module.
+		This function automatically adds the API key and secret to the request
+		Args:
+			url: {str} URL path to the requested resource (without base URL and first slash)
+			params: {dict} Any additional request parameters apart from the API key and secret
+		Returns:
+			{dict} A dict of the response data from the API call. If there is an error, the error
+			response from the server is returned
+		Raises:
+
+		"""
+		request_url = self.__BASEURL + url
+		params['api_key'] = self.__KEY
+		try:
+			r = requests.get(request_url, params=params)
+			res = r.json()
+			if res['result'] != 'success':
+				raise ApiResponseError(res['messages'])
+			else:
+				return r.json()
+		except Exception:
+			raise ApiRequestError(Exception.msg)
+
+	def getPetitionId(self, petitionUrl):
+		"""
+		Function to get the ID of a petition, given the petition URL
+		Args:
+			petitionUrl: {str} URL of the petition
+		Returns:
+			{int} ID of the petition
+		Raises:
+			ApiResponseError: Thrown if there is an error in the API response
+		"""
+		resource_endpoint = 'petitions/get_id'
+		params = {'petition_url': petitionUrl}
+		res = self.__makeRequest(resource_endpoint, params)
+		return int(res['petition_id'])
