@@ -70,11 +70,11 @@ class Api(object):
 			r = requests.get(request_url, params=params)
 			res = r.json()
 			if res['result'] != 'success':
-				raise ApiResponseError(res['messages'])
+				raise ex.ApiResponseError(res['messages'])
 			else:
 				return r.json()
 		except Exception:
-			raise ApiRequestError(Exception.msg)
+			raise ex.ApiRequestError(Exception.msg)
 
 	def getPetitionId(self, petitionUrl):
 		"""
