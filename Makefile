@@ -14,3 +14,8 @@ decrypt_conf: _pwd_prompt
 # for updating .env.cast5
 encrypt_conf: _pwd_prompt
 	openssl cast5-cbc -e -in ${CONF_FILE} -out ${CONF_FILE}.cast5
+
+# run tests
+test:
+	pip install -r requirements.txt
+	py.test -v tests/*
