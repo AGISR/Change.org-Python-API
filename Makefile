@@ -1,4 +1,4 @@
-.PHONY: _pwd_prompt decrypt_conf encrypt_conf
+.PHONY: _pwd_prompt decrypt_conf encrypt_conf test install
 
 CONF_FILE=.env
 
@@ -18,4 +18,9 @@ encrypt_conf: _pwd_prompt
 # run tests
 test:
 	pip install -r requirements.txt
-	py.test -v tests/*
+	py.test -vv tests/*
+
+# install change_org module
+install:
+	pip install -r requirements.txt
+	python setup.py install

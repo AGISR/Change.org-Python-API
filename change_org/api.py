@@ -69,10 +69,7 @@ class Api(object):
 		try:
 			r = requests.get(request_url, params=params)
 			res = r.json()
-			if res['result'] != 'success':
-				raise ex.ApiResponseError(res['messages'])
-			else:
-				return r.json()
+			return r.json()
 		except Exception:
 			raise ex.ApiRequestError(Exception.msg)
 
@@ -90,3 +87,17 @@ class Api(object):
 		params = {'petition_url': petitionUrl}
 		res = self.__makeRequest(resource_endpoint, params)
 		return int(res['petition_id'])
+
+	def getSinglePetitionById(self, petitionId):
+		"""
+		Function to get details about a petition from its petition ID
+		Args:
+			petitionId: {int} ID of the petition
+		Returns:
+			{dict} A dict with details about the petition (title, status, url, overview
+			targets, letter_body, signature_count, image_url, category, goal, created_at,
+			end_at, creator_name, creator_url, organization_name, organization_url)
+		"""
+		resource_endpoint = 'petitions/' + str(petitionId)
+		res = self.__makeRequest(resource_endpoint, {})
+		return res
