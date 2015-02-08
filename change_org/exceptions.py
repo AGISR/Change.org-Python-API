@@ -15,7 +15,8 @@ class ApiInitializationError(Exception):
 
 class ApiResponseError(Exception):
 	"""
-	Exception class for an error to be thrown if the response of the REST API is not what is expected. This is usually caused by a bad request
+	Exception class for an error to be thrown if the response of the REST API is not what is
+	expected. This is usually caused by a bad request
 	"""
 	def __init__(self, expr, msg):
 		self.msg = msg
@@ -24,7 +25,8 @@ class ApiResponseError(Exception):
 
 class ApiRequestError(Exception):
 	"""
-	Exception class for an error to be thrown if there is an error when making a request to the REST API
+	Exception class for an error to be thrown if there is an error when making a request
+	to the REST API
 	"""
 	def __init__(self, expr, msg):
 		self.msg = msg

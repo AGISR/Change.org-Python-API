@@ -68,11 +68,9 @@ class Api(object):
 		params['api_key'] = self.__KEY
 		try:
 			r = requests.get(request_url, params=params)
-			res = r.json()
-			print r.url
 			return r.json()
 		except Exception:
-			raise ex.ApiRequestError(self, Exception.msg)
+			raise ex.ApiResponseError(self, str(Exception))
 
 	def getPetitionId(self, petitionUrl):
 		"""
@@ -100,9 +98,14 @@ class Api(object):
 			end_at, creator_name, creator_url, organization_name, organization_url)
 		Raises:
 			ApiResponseError: Thrown if there is an error in the API response
+			ApiRequestError: Thrown if there is an error with the request
+							 (usually due to an incorrect petition ID)
 		"""
 		resource_endpoint = 'petitions/' + str(petitionId)
 		res = self.__makeRequest(resource_endpoint, {})
+		if 'result' in res.viewkeys():
+			if res['result'] == 'failure':
+				raise ex.ApiRequestError(self, res['error'])
 		return res
 
 	def getMultiplePetitionsById(self, petitionIds):
@@ -115,6 +118,8 @@ class Api(object):
 			IDs provoded, in sequential order
 		Raises:
 			ApiResponseError: Thrown if there is an error in the API response
+			ApiRequestError: Thrown if there is an error in the API request
+							 (usually due to an inccorect petition ID)
 		"""
 		resource_endpoint = 'petitions/'
 		params = {'petition_ids': ''}
@@ -123,7 +128,7 @@ class Api(object):
 		res = self.__makeRequest(resource_endpoint, params)
 		if 'result' in res.viewkeys():
 			if res['result'] == 'failure':
-				raise ex.ApiResponseError(self, res['error'])
+				raise ex.ApiRequestError(self, res['error'])
 		output = res['petitions']
 		if res['total_pages'] > 1:
 			next_page_endpoint = res['next_page_endpoint']
@@ -132,3 +137,22 @@ class Api(object):
 				output = output + current_page['petitions']
 				next_page_endpoint = current_page['next_page_endpoint']
 		return output
+
+	def getSignatureCountOnPetition(self, petitionId):
+		"""
+		Function to get the number of signatures on a petition
+		Args:
+			petitionId: {int} ID of the petition
+		Returns:
+			{int} number of signatures on the petition
+		Raises:
+			ApiResponseError: Thrown if there is an error in the API response
+			ApiRequestError: Thrown if there is an error in the API request
+							 (usually due to an incorrect petition ID)
+		"""
+		resource_endpoint = 'petitions/' + str(petitionId) + '/signatures'
+		res = self.__makeRequest(resource_endpoint, {'page_size': 500})
+		if 'result' in res.viewkeys():
+			if res['result'] == 'failure':
+				raise ex.ApiRequestError(self, res['error'])
+		return res['signature_count']

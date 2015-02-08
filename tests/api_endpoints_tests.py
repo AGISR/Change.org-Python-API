@@ -39,9 +39,20 @@ def testGetMultiplePetitionsById():
 	"""
 	Test to check if getting petition details for multiple petitions by ID works correctly.
 
-	Note: Actual response is not tested - just whether or not json is valid and not erroneous
+	Note: Actual response is not tested - just whether or not json response is valid and not erroneous
 	"""
 	api = c.Api()
 	output = api.getMultiplePetitionsById([2297756, 1756395])
 	if type(output) is list:
+		assert True
+
+def testGetSignatureCountOnPetition():
+	"""
+	Test to check if getting the number of signatures on a petition works correctly
+
+	Note: Actual response is not tested - just whether or not json response is valid and not erroneous
+	"""
+	api = c.Api()
+	output = api.getSignatureCountOnPetition(2297566)
+	if type(output) is int:
 		assert True
