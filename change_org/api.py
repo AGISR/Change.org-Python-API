@@ -69,9 +69,10 @@ class Api(object):
 		try:
 			r = requests.get(request_url, params=params)
 			res = r.json()
+			print r.url
 			return r.json()
 		except Exception:
-			raise ex.ApiRequestError(Exception.msg)
+			raise ex.ApiRequestError(self, Exception.msg)
 
 	def getPetitionId(self, petitionUrl):
 		"""
@@ -97,7 +98,37 @@ class Api(object):
 			{dict} A dict with details about the petition (title, status, url, overview
 			targets, letter_body, signature_count, image_url, category, goal, created_at,
 			end_at, creator_name, creator_url, organization_name, organization_url)
+		Raises:
+			ApiResponseError: Thrown if there is an error in the API response
 		"""
 		resource_endpoint = 'petitions/' + str(petitionId)
 		res = self.__makeRequest(resource_endpoint, {})
 		return res
+
+	def getMultiplePetitionsById(self, petitionIds):
+		"""
+		Function to get details about multiple petitions from their petition IDs
+		Args:
+			petitionIds: {array} Array of petition IDs
+		Returns:
+			{array} Array of dict objects, with details about each of the petition
+			IDs provoded, in sequential order
+		Raises:
+			ApiResponseError: Thrown if there is an error in the API response
+		"""
+		resource_endpoint = 'petitions/'
+		params = {'petition_ids': ''}
+		for petition_id in petitionIds:
+			params['petition_ids'] = params['petition_ids'] + str(petition_id) + ','
+		res = self.__makeRequest(resource_endpoint, params)
+		if 'result' in res.viewkeys():
+			if res['result'] == 'failure':
+				raise ex.ApiResponseError(self, res['error'])
+		output = res['petitions']
+		if res['total_pages'] > 1:
+			next_page_endpoint = res['next_page_endpoint']
+			while next_page_endpoint is not None:
+				current_page = self.__makeRequest(next_page_endpoint, {})
+				output = output + current_page['petitions']
+				next_page_endpoint = current_page['next_page_endpoint']
+		return output
