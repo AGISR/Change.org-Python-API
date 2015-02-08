@@ -26,6 +26,11 @@ To run all tests, use [py.test](http://pytest.org/latest/) (installed by default
 $ py.test tests/*
 ```
 
+Or alternatively, use the Makefile function as follows:
+```bash
+$ make test
+```
+
 ## Contact
 
 This is an open source project released under the [MIT License](LICENSE). Contact me if you want to suggest an improvement, or fork and send a pull request!
