@@ -16,7 +16,9 @@ encrypt_conf: _pwd_prompt
 	openssl cast5-cbc -e -in ${CONF_FILE} -out ${CONF_FILE}.cast5
 
 # run tests
+# Note: This also runs make install to ensure latest version is installed
 test:
+	make install
 	pip install -r requirements.txt
 	py.test -vv tests/*
 
